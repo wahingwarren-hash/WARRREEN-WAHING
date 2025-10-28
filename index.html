@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warren M. Wahing - Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for the sidebar -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* NEW PRIMARY COLOR: Deep Gray (Tailwind gray-700) */
+            --primary-gray: #374151; 
+            --hover-gray: #1f2937; /* Tailwind gray-800 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+        .sidebar-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 4rem;
+            width: 4rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            border-radius: 9999px; /* rounded-full */
+            color: #6b7280; /* text-gray-500 */
+        }
+        .sidebar-item:hover {
+            color: var(--primary-gray); /* Change hover color to primary gray */
+            background-color: #e5e7eb; /* bg-gray-200 */
+        }
+        .sidebar-item.active {
+            color: white;
+            background-color: var(--primary-gray); /* Use primary gray for active state */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .content-section {
+            display: none;
+            padding: 1.5rem;
+        }
+        .content-section.active {
+            display: block;
+        }
+        /* Style for the social media icons */
+        .social-icon {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 0.5rem;
+            border-radius: 9999px;
+            transition: background-color 0.2s;
+        }
+        .social-icon:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        /* Modal Backdrop Styling */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay for focus */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Gallery Item Hover Effect */
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        /* ------------------------------------------- */
+        /* FIX: Custom Background for the Hero Section */
+        /* ------------------------------------------- */
+        .hero-bg-image {
+            /* Using a light, misty mountain image URL to match the video */
+            background-image: url('https://images.unsplash.com/photo-1517594422361-5e56e017ae7b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; 
+        }
+
+        /* Add a subtle dark gradient overlay for better text contrast, focused on the left where the text is */
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.05) 100%);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Application Container -->
+    <div class="flex min-h-screen bg-white">
+        
+        <!-- Sidebar (Fixed Navigation) -->
+        <aside class="w-20 bg-gray-50 flex flex-col items-center py-6 shadow-xl fixed left-0 top-0 bottom-0 z-10 hidden md:flex">
+            <div class="flex-grow flex flex-col justify-center space-y-2">
+                <!-- Home -->
+                <button class="sidebar-item active" data-target="home">
+                    <i data-lucide="home" class="w-6 h-6"></i>
+                </button>
+                <!-- Portfolio (Gallery Icon) -->
+                <button class="sidebar-item" data-target="portfolio">
+                    <i data-lucide="image" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="md:ml-20 flex-grow min-h-screen bg-white">
+
+            <!-- 1. HOME Section -->
+            <section id="home" class="content-section active relative min-h-screen p-0">
+                <!-- Background with Image and Overlay (The fix) -->
+                <div class="absolute inset-0 hero-bg-image">
+                    <div class="absolute inset-0 hero-overlay"></div>
+                </div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row min-h-screen text-white">
+                    <!-- Left Content Block (7/12 width on large screens) -->
+                    <div class="flex flex-col justify-center items-start p-8 md:p-16 lg:w-7/12">
+                        <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 leading-tight drop-shadow-lg">
+                            Warren M. Wahing
+                        </h1>
+                        <p id="typing-text" class="text-xl sm:text-3xl font-medium mb-8 bg-black bg-opacity-50 px-3 py-1 rounded-lg drop-shadow-lg"></p>
+                        
+                        <!-- Social Icons -->
+                        <div class="flex space-x-4">
+                            <a href="#" class="social-icon">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i data-lucide="facebook" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i data-lucide="linkedin" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Portrait Block (5/12 width on large screens - matching the video style) -->
+                    <div class="hidden md:flex lg:w-5/12 justify-center items-end overflow-hidden p-8">
+                         <!-- Placeholder for the self-portrait image (large and partially visible) -->
+                         <img src="hero-bg.jpg" 
+                              onerror="this.onerror=null; this.src='hero-bg.jpg'"
+                              alt="" 
+                              class="w-full max-w-xs md:max-w-sm lg:max-w-md h-auto object-cover rounded-xl shadow-2xl transform translate-x-12 translate-y-12 transition duration-500 hover:scale-105">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. PORTFOLIO Section -->
+            <section id="portfolio" class="content-section max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-4 text-gray-800">Portfolio</h2>
+                <p class="text-lg text-center mb-10 text-gray-500">
+                    Showcasing my best work in Photography and Videography.
+                </p>
+
+                <!-- Filter Buttons -->
+                <div class="flex justify-center space-x-4 mb-12">
+                    <!-- Photography Filter Button -->
+                    <button id="filter-photography" data-category="photography" class="filter-btn px-6 py-2 rounded-full text-white bg-gray-700 hover:bg-gray-800 transition duration-150 shadow-md">
+                        Photography
+                    </button>
+                    <!-- Videography Filter Button -->
+                    <button id="filter-videography" data-category="videography" class="filter-btn px-6 py-2 rounded-full text-gray-600 bg-gray-200 hover:bg-gray-300 transition duration-150">
+                        Videography
+                    </button>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    
+                    <!-- Gallery Item 1 (Photography) -->
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg transform hover:scale-[1.03] transition duration-300 relative cursor-pointer group" 
+                         data-category="photography"
+                         data-media-type="image" 
+                         data-media-url="warrendoc.jpg">
+                        <img src="warrendoc.jpg" 
+                             alt="Gallery Photo 1" 
+                             class="w-full h-auto object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <i data-lucide="maximize" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 2 (Videography - Local File) -->
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg transform hover:scale-[1.03] transition duration-300 relative cursor-pointer group" 
+                         data-category="videography"
+                         data-media-type="local-video" 
+                         data-media-url="222.mp4">
+                        <img src="4.jpg" 
+                             alt="Video Project Thumbnail" 
+                             class="w-full h-auto object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <i data-lucide="play-circle" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 3 (Photography) -->
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg transform hover:scale-[1.03] transition duration-300 relative cursor-pointer group" 
+                         data-category="photography"
+                         data-media-type="image" 
+                         data-media-url="Brown Collage Personal Scrapbook All About Me Poster (1).jpg">
+                        <img src="Brown Collage Personal Scrapbook All About Me Poster (1).jpg" 
+                             alt="Gallery Photo 3" 
+                             class="w-full h-auto object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <i data-lucide="maximize" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 4 (Videography - YouTube Embed) -->
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg transform hover:scale-[1.03] transition duration-300 relative cursor-pointer group" 
+                         data-category="videography"
+                         data-media-type="youtube-video" 
+                         data-media-url="11.mp4">
+                        <img src="4.jpg" 
+                             alt="Video Project Thumbnail 2" 
+                             class="w-full h-auto object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <i data-lucide="play-circle" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 5 (Photography) -->
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg transform hover:scale-[1.03] transition duration-300 relative cursor-pointer group" 
+                         data-category="photography"
+                         data-media-type="image" 
+                         data-media-url="WARRENDOCUMENTARY.png">
+                        <img src="WARRENDOCUMENTARY.png" 
+                             alt="Gallery Photo 5" 
+                             class="w-full h-auto object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <i data-lucide="maximize" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 6 (Videography - Local File) -->
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg transform hover:scale-[1.03] transition duration-300 relative cursor-pointer group" 
+                         data-category="videography"
+                         data-media-type="local-video" 
+                         data-media-url="33.MP4">
+                        <img src="4.jpg" 
+                             alt="Video Project Thumbnail 3" 
+                             class="w-full h-auto object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <i data-lucide="play-circle" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="text-center py-6 text-gray-500 text-sm border-t mt-10 md:ml-20">
+                &copy; 2025 Warren M. Wahing. All Rights Reserved.
+            </footer>
+
+            <!-- Scroll to Top Button -->
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                    class="fixed bottom-4 right-4 md:right-8 p-3 rounded-full bg-gray-700 text-white shadow-lg hover:bg-gray-800 transition duration-300 z-30">
+                <i data-lucide="arrow-up" class="w-5 h-5"></i>
+            </button>
+        </main>
+    </div>
+
+    <!-- MODAL POP-UP STRUCTURE -->
+    <div id="media-modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center hidden opacity-0" onclick="closeModal()">
+        
+        <!-- Modal Content (to stop click propagation from closing the modal when clicking inside) -->
+        <div class="bg-white rounded-xl shadow-2xl p-4 sm:p-6 w-11/12 md:w-3/4 lg:w-2/3 max-w-4xl max-h-[90vh] overflow-auto relative" onclick="event.stopPropagation()">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-2 right-2 p-2 rounded-full text-gray-700 hover:bg-gray-200 transition z-50">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Media Container - where the image or video will be inserted -->
+            <div id="modal-media-container" class="mt-4">
+                <!-- Media will be dynamically loaded here -->
+            </div>
+
+        </div>
+    </div>
+    <!-- END MODAL POP-UP STRUCTURE -->
+
+
+    <script>
+        // --- JavaScript for Interactive Elements ---
+
+        // 1. Sidebar Navigation Logic (unchanged)
+        const sidebarButtons = document.querySelectorAll('.sidebar-item');
+        const sections = document.querySelectorAll('.content-section');
+
+        sidebarButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+
+                // Update active button state
+                sidebarButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Show the target section and hide others
+                sections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                        // Scroll to the top of the main content area when section changes
+                        document.getElementById('main-content').scrollTop = 0; 
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                // Update URL hash for section sharing/bookmarking
+                window.location.hash = targetId;
+            });
+        });
+
+        // Initialize section based on URL hash or default to 'home'
+        const initialHash = window.location.hash.replace('#', '') || 'home';
+        
+        function setInitialSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                sidebarButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-target') === sectionId) {
+                        btn.classList.add('active');
+                    }
+                });
+            } else {
+                document.getElementById('home').classList.add('active');
+                document.querySelector('[data-target="home"]').classList.add('active');
+            }
+        }
+
+        setInitialSection(initialHash);
+
+        // 2. Typing Effect for Home Section (unchanged)
+        const phrases = ["I Love Lee Chae Min", "I Love Byeon Woo Seok", "I am a Graphic Designer", "I am a BSIT Student"];
+        const typingElement = document.getElementById('typing-text');
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+        let delayBeforeNextPhrase = 2000;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            const displayText = currentPhrase.substring(0, charIndex);
+            // Added blinking cursor effect
+            typingElement.textContent = displayText + (charIndex === currentPhrase.length ? '' : ' |'); 
+
+            if (!isDeleting) {
+                charIndex++;
+                if (charIndex > currentPhrase.length) {
+                    isDeleting = true;
+                    typingSpeed = 50; 
+                    setTimeout(type, delayBeforeNextPhrase);
+                    return;
+                }
+            } else {
+                charIndex--;
+                if (charIndex < 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    typingSpeed = 150; 
+                    setTimeout(type, 500);
+                    return;
+                }
+            }
+
+            let timeout = isDeleting ? 50 : 100;
+            setTimeout(type, timeout);
+        }
+        
+        // 3. Portfolio Filter Logic (unchanged)
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const selectedCategory = e.currentTarget.getAttribute('data-category');
+
+                // Update active button styling
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('text-white', 'bg-gray-700', 'hover:bg-gray-800', 'shadow-md');
+                    btn.classList.add('text-gray-600', 'bg-gray-200', 'hover:bg-gray-300');
+                });
+                e.currentTarget.classList.add('text-white', 'bg-gray-700', 'hover:bg-gray-800', 'shadow-md');
+                e.currentTarget.classList.remove('text-gray-600', 'bg-gray-200', 'hover:bg-gray-300');
+
+                // Filter gallery items
+                galleryItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category');
+                    if (itemCategory === selectedCategory) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 4. Modal Logic 
+        const modal = document.getElementById('media-modal');
+        const modalContent = document.getElementById('modal-media-container');
+
+        function openModal(url, type) {
+            let contentHTML = '';
+
+            if (type === 'image') {
+                // Image display
+                contentHTML = `<img src="${url}" alt="Portfolio Image" class="w-full h-auto rounded-lg object-contain max-h-[80vh]">`;
+            } else if (type === 'youtube-video') {
+                // YouTube/External iFrame display
+                contentHTML = `
+                    <div class="relative rounded-lg overflow-hidden" style="padding-bottom: 56.25%; height: 0;">
+                        <iframe 
+                            src="${url}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen 
+                            class="absolute top-0 left-0 w-full h-full"
+                            title="Portfolio Video">
+                        </iframe>
+                    </div>
+                `;
+            } else if (type === 'local-video') {
+                // Local video file display (using HTML <video> tag)
+                contentHTML = `
+                    <div class="w-full relative">
+                        <video controls autoplay class="w-full h-auto rounded-lg object-contain max-h-[80vh]">
+                            <source src="${url}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                `;
+            }
+            
+            modalContent.innerHTML = contentHTML;
+            modal.classList.remove('hidden');
+            // Animate transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        window.closeModal = function() { // Made global for onclick in HTML
+            modal.classList.add('opacity-0');
+            
+            // Stop external video playback (iframes)
+            const iframe = modalContent.querySelector('iframe');
+            if (iframe && iframe.src) {
+                // Stops video playback by clearing/resetting the source
+                iframe.src = ''; 
+            }
+
+            // Stop local video playback (video tags)
+            const video = modalContent.querySelector('video');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+            
+            // Wait for transition before hiding completely
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalContent.innerHTML = ''; // Clear content
+            }, 300); 
+        }
+
+        // Attach modal listeners to all gallery items
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-media-url');
+                const type = item.getAttribute('data-media-type');
+                openModal(url, type);
+            });
+        });
+
+        // Close modal when pressing ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+
+        // Initialization on load
+        window.addEventListener('load', () => {
+            // Re-render Lucide icons after DOM is loaded
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            type();
+            
+            // Set initial filter state (Photography is default active)
+            document.querySelector('#filter-photography').click();
+        });
+
+    </script>
+</body>
+</html>
